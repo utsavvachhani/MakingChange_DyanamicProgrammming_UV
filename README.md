@@ -1,112 +1,56 @@
-//DAA-8_uv Dynamic Programming
-#include<stdio.h>
-#include<stdlib.h>
-#include<time.h>
-#include<conio.h>
-int c[150][150];
-int Dynamic_programming(int d[],int n,int N){
-	int i,j,x;
-	for(i=1;i<=n;i++){
-		c[i][0]=0;
-	}
-	for(i=1;i<=n;i++){
-		for(j=1;j<=N+1;j++){
-			if(i==1 && j<d[i]){
-				c[i][j]=32000;
-			}//1
-			else if(i==1){
-				c[i][j]=1+c[1][j-d[1]];
-			} //2
-			else if(j<d[i]){
-				c[i][j]=c[i-1][j];
-			} //3
-			else {
-				if( c[i-1][j] < ( 1+c[i][j-d[i]] ) ){
-					x=c[i-1][j];
-				}
-				else{	x=1+c[i][j-d[i]];		}
-				c[i][j]=x;
-			}
-		}
-	}
-	return c[n][N];
-}
-int main(){
-	int N;
-	int d[165];
-	int n;
-	int i,j;
-	int ch,x=0;
-	clock_t starttime,endtime;
-	FILE *wr=fopen("C:\\TURBOC3\\BIN\\project\\Output_m.txt","w");
-	FILE *fp=fopen("C:\\TURBOC3\\BIN\\project\\arrayD.txt","r");
-	clrscr();
-	printf("Code by utsav vachhani(uv).");
-	printf("\nThis is code of Dyanmic Programming ");
-	printf("\n\"Data size of all operter in maxium 165.\"\n ");
-	printf("What is the value of N \n(where N is the number of units for which to make change) :");
-	scanf("%d",&N);
-	if(N>165) {
-		printf("\n\"Data size is Higher then 165.\"");
-		return 0;
-	}
-	printf("\nHow many coines in your problem :");
-	scanf("%d",&n);
-	if(n>165) {
-		printf("\n\"Data size is Higher then 165.\"");
-		return 0;
-	}
 
-	i=1;
-	ch=getc(fp);
-	while(ch!=EOF){
-		if(ch>=48 && ch<=57){
-				x=(x*10)+(ch-48);
-		}
-		else if(x!=0) {
-			i++;
-			d[i-1]=x;
-			x=0;
-			if(i==n+1){
-				break;
-			}
-		}
-		ch=getc(fp);
-	}
-	if(ch==EOF){
-		i++;
-		d[i-1]=x;
-	}
-	printf("\nValues are copy Sucessful from ArrayD.txt ");
+# Making Change - Dynamic Programming  
 
-	starttime=clock();
-	Dynamic_programming(d,n,N);
-	endtime=clock();
+This repository contains a C program that demonstrates the **Making Change problem** using the **Dynamic Programming** approach. The program calculates the minimum number of coins required to achieve a given target amount with a specified set of coin denominations.  
 
-	for(j=1;j<=N+1;j++){
-		fprintf(wr,"\t%d",j-1);
-		//printf("\t%d",j-1);
-	}
-	//printf("\n");
-	fprintf(wr,"\n--------");
-	for(j=1;j<=N+1;j++){
-	fprintf(wr,"--------");
-	//printf("--------");
-	}
-	for(i=1;i<=n;i++){
-		//printf("\n%d |",d[i]);
-		fprintf(wr,"\n%d |",d[i]);
-		for(j=1;j<=N+1;j++){
-		  //	printf("\t%d",c[i][j]);
-			fprintf(wr,"\t%d",c[i][j]);
-		}
-	}
+## Problem Overview  
 
-	printf("\nData are Write sucesfully in OUTPUT_M.txt");
+The **Making Change problem** is a classic optimization problem in computer science. Given a target amount and a set of coin denominations, the objective is to minimize the number of coins needed to make up the target amount.  
 
-	printf("\n\nThe required coines are %d",c[n][N]);
-	printf("\n\nTime=%f\n",(endtime-starttime)/CLOCKS_PER_SEC);
-	fclose(fp);
-	fclose(wr);
-	return -1;
-}
+### Key Features:  
+- Implements an efficient **Dynamic Programming** solution.  
+- Handles a variety of coin denominations.  
+- Provides clear output for the minimum number of coins required.  
+- Returns `-1` if it's impossible to form the target amount with the given denominations.  
+
+### Example:  
+#### Input:  
+- **Coin Denominations:** [1, 5, 10, 25]  
+- **Target Amount:** 47  
+
+#### Output:  
+- Minimum Coins Required: 5  
+
+## How It Works  
+
+1. The program uses a DP array where each index represents the minimum number of coins required to form that value.  
+2. It iterates over each coin denomination and updates the DP array accordingly.  
+3. After processing all denominations, the DP array contains the solution for the target amount.  
+
+## Usage  
+
+1. Clone the repository:  
+   ```bash  
+   git clone https://github.com/utsavvachhani/MakingChange_DyanamicProgrammming.git  
+   ```  
+2. Compile the C program using a C compiler, e.g., GCC:  
+   ```bash  
+   gcc -o making_change making_change.c  
+   ```  
+3. Run the program:  
+   ```bash  
+   ./making_change  
+   ```  
+4. Follow the prompts to enter your coin denominations and target amount.  
+
+## Repository Link  
+
+[GitHub Repository: Making Change - Dynamic Programming](https://github.com/utsavvachhani/MakingChange_DyanamicProgrammming)  
+
+## Why Use Dynamic Programming?  
+
+Dynamic Programming ensures:  
+- **Optimal Substructure:** The problem is broken down into smaller overlapping subproblems.  
+- **Efficiency:** By storing intermediate results, the solution avoids redundant computations, ensuring a faster runtime.  
+
+---
